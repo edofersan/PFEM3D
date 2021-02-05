@@ -1,10 +1,10 @@
 Problem = {
     id = "IncompNewtonNoT",
-	simulationTime = 4,
+	simulationTime = 10,
 	verboseOutput = true,
 	
 	Mesh = {
-		hchar = 0.006,
+		hchar = 0.0146,
 		alpha = 1.2,
 		omega = 0.7,
 		gamma = 0.7,
@@ -23,9 +23,14 @@ Problem = {
 		{
 			kind = "GMSH",
 			outputFile = "results.msh",
-			timeBetweenWriting = 0.05,
+			timeBetweenWriting = 0.025,
 			whatToWrite = {"p", "ke"},
 			writeAs = "NodesElements" 
+		},
+		{
+			kind = "Mass",
+			outputFile = "mass.txt",
+			timeBetweenWriting = 0.01,
 		}
 	},
 	

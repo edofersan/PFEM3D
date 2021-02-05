@@ -1,6 +1,6 @@
 Problem = {
     id = "WCompNewtonNoT",
-	simulationTime = 4,
+	simulationTime = 10,
 	verboseOutput = false,
 	
 	Mesh = {
@@ -23,9 +23,14 @@ Problem = {
 		{
 			kind = "GMSH",
 			outputFile = "results.msh",
-			timeBetweenWriting = 0.05,
+			timeBetweenWriting = 0.025,
 			whatToWrite = {"p", "ke"},
 			writeAs = "NodesElements" 
+		},
+		{
+			kind = "Mass",
+			outputFile = "mass.txt",
+			timeBetweenWriting = 0.01,
 		}
 	},
 	
