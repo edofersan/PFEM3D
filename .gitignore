@@ -8,4 +8,3 @@ nlohmann/
 *.cpp.save-failed
 *.hpp.save-failed
 .vscode/settings.json
-PostProc/
