@@ -8,4 +8,4 @@ export OMP_NUM_THREADS=2
 
 export PATH=${GMSHSDK}/bin:${GMSHSDK}/lib:"${PATH}"
 
-./pfem ../../examples/2D/squareToDisk/paramsIncomp.json ../../examples/2D/squareToDisk/geometry.msh
+./pfem ../../examples/2D/damBreakWithObstacle/testComp.lua ../../examples/2D/damBreakWithObstacle/geometry.msh
