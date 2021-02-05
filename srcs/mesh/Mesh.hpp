@@ -19,6 +19,10 @@ struct MeshCreateInfo
 {
     double hchar = 0; /**< The characteristic element size of the mesh*/
     double alpha = 1; /**< The required \f$ \alpha \f$ value for the \f$ \alpha \f$-shape algorithm*/
+    double alphaMax = 1; /**< The maximum value of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
+    double alphaMin = 1; /**< The minimum value of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
+    double Dalpha   = 1; /**< The imposed variation of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
+    double MassTol  = 1; /**< The required variation of Mass to start variation of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
     double gamma = 0; /**< A node should be deleted if \f$ d(n_1, n_2) < \gamma h_{char} \f$ */
     double omega = 1e16; /**< A node should be added in the center of an element if \f$ A_{elm} > \omega h_{char}^{dim} \f$ */
     std::vector<double> boundingBox = {}; /**< Nodes and elements outised bounding box are deleted. Format:
@@ -196,6 +200,10 @@ class MESH_API Mesh
     private:
         double m_hchar; /**< Characteristic size of an element (same as in .geo file). */
         double m_alpha; /**< Alpha parameter of the alpha-shape algorithm (triangles are discared if  r_circumcircle > alpha*hchar). */
+        double m_alphaMax; /**< Maximum Alpha value of the alpha-shape algorithm. */
+        double m_alphaMin; /**< Minimum Alpha value of the alpha-shape algorithm. */
+        double m_Dalpha;   /**< Imposed Variation of Alpha value of the alpha-shape algorithm. */
+        double m_MassTol;  /**< Maximum variation of mass (% of Initial Mass) to start Alpha variation. */
         double m_omega; /**< Control the addition of node if a triangle is too big (a node is added if A_triangle > omege*hchar^2). */
         double m_gamma; /**< Control the deletetion of node if two are too close to each other (a node is deleted if d_nodes < gamma*hchar). */
         std::vector<double> m_boundingBox; /**< Box delimiting the zone of nodes existence (format: [xmin, ymin, xmax, ymax]). */

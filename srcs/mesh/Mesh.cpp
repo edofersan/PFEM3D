@@ -11,6 +11,10 @@
 Mesh::Mesh(const MeshCreateInfo& meshInfos) :
 m_hchar(meshInfos.hchar),
 m_alpha(meshInfos.alpha),
+m_alphaMax(meshInfos.alphaMax),
+m_alphaMin(meshInfos.alphaMin),
+m_Dalpha(meshInfos.Dalpha),
+m_MassTol(meshInfos.MassTol),
 m_omega(meshInfos.omega),
 m_gamma(meshInfos.gamma),
 m_boundingBox(meshInfos.boundingBox),

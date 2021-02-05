@@ -51,6 +51,10 @@ m_step(0)
     MeshCreateInfo createInfo = {
         mesh.checkAndGet<double>("hchar"),
         mesh.checkAndGet<double>("alpha"),
+        mesh.checkAndGet<double>("alphaMax"),
+        mesh.checkAndGet<double>("alphaMin"),
+        mesh.checkAndGet<double>("Dalpha"),
+        mesh.checkAndGet<double>("MassTol"),
         mesh.checkAndGet<double>("gamma"),
         mesh.checkAndGet<double>("omega"),
         mesh.checkAndGet<std::vector<double>>("boundingBox"),
