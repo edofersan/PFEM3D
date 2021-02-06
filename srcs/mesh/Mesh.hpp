@@ -197,13 +197,18 @@ class MESH_API Mesh
          */
         void updateNodesPositionFromSave(std::vector<double> deltaPos);
 
-    private:
-        double m_hchar; /**< Characteristic size of an element (same as in .geo file). */
+        /// \brief Remesh the nodes in nodesList using CGAL (Delaunay triangulation and alpha-shape).
+        void triangulateAlphaShape();
+
         double m_alpha; /**< Alpha parameter of the alpha-shape algorithm (triangles are discared if  r_circumcircle > alpha*hchar). */
+        double m_MassTol;  /**< Maximum variation of mass (% of Initial Mass) to start Alpha variation. */
+        double m_Dalpha;   /**< Imposed Variation of Alpha value of the alpha-shape algorithm. */
         double m_alphaMax; /**< Maximum Alpha value of the alpha-shape algorithm. */
         double m_alphaMin; /**< Minimum Alpha value of the alpha-shape algorithm. */
-        double m_Dalpha;   /**< Imposed Variation of Alpha value of the alpha-shape algorithm. */
-        double m_MassTol;  /**< Maximum variation of mass (% of Initial Mass) to start Alpha variation. */
+        bool   m_adaptAlpha;  /**< are the parameters correctly set to modify Alpha? */
+        
+    private:
+        double m_hchar; /**< Characteristic size of an element (same as in .geo file). */
         double m_omega; /**< Control the addition of node if a triangle is too big (a node is added if A_triangle > omege*hchar^2). */
         double m_gamma; /**< Control the deletetion of node if two are too close to each other (a node is deleted if d_nodes < gamma*hchar). */
         std::vector<double> m_boundingBox; /**< Box delimiting the zone of nodes existence (format: [xmin, ymin, xmax, ymax]). */
@@ -251,9 +256,6 @@ class MESH_API Mesh
          * \param fileName The name of the .msh file.
          */
         void loadFromFile(const std::string& fileName);
-
-        /// \brief Remesh the nodes in nodesList using CGAL (Delaunay triangulation and alpha-shape).
-        void triangulateAlphaShape();
 
         /// \brief Remesh the nodes in nodesList using CGAL (Delaunay triangulation and alpha-shape) (2D).
         void triangulateAlphaShape2D();

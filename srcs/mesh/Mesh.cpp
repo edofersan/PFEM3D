@@ -9,17 +9,29 @@
 
 
 Mesh::Mesh(const MeshCreateInfo& meshInfos) :
-m_hchar(meshInfos.hchar),
 m_alpha(meshInfos.alpha),
+m_MassTol(meshInfos.MassTol),
+m_Dalpha(meshInfos.Dalpha),
 m_alphaMax(meshInfos.alphaMax),
 m_alphaMin(meshInfos.alphaMin),
-m_Dalpha(meshInfos.Dalpha),
-m_MassTol(meshInfos.MassTol),
+m_hchar(meshInfos.hchar),
 m_omega(meshInfos.omega),
 m_gamma(meshInfos.gamma),
 m_boundingBox(meshInfos.boundingBox),
 m_computeNormalCurvature(true)
 {
+    // Check if alpha can be modified, if not, alpha is considered fixed --------------
+    if(m_alpha < m_alphaMax && m_alpha > m_alphaMin)
+    {
+        if (m_Dalpha<m_alphaMax-m_alpha && m_Dalpha<m_alpha-m_alphaMin && m_Dalpha>0.0)
+            m_adaptAlpha = true; 
+        else
+            m_adaptAlpha = false;
+    }
+    else
+        m_adaptAlpha = false; 
+    // end check -----------------------------------------------------------------------
+
     loadFromFile(meshInfos.mshFile);
 }
 
@@ -344,6 +356,15 @@ void Mesh::displayToConsole() const noexcept
     std::cout << "Mesh dimension: " << m_dim << "D\n";
     std::cout << "hchar: " << m_hchar << "\n";
     std::cout << "alpha: " << m_alpha << "\n";
+
+    if(m_adaptAlpha)
+    {
+        std::cout << "  |→ alphaMax: " << m_alphaMax << "\n";
+        std::cout << "  |→ alphaMin: " << m_alphaMin << "\n";
+        std::cout << "  |→ Dalpha  : " << m_Dalpha  << "\n";
+        std::cout << "  |→ MassTol : " << m_MassTol << "\n";
+    } 
+    
     std::cout << "omega: " << m_omega << "\n";
     std::cout << "gamma: " << m_gamma << std::endl;
 }
