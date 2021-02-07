@@ -27,6 +27,8 @@ class SIMULATION_API SolverWCompNewton: public Solver
 
 		double m_nextTimeToRemesh;
 
+        double m_MassIni;                  /**<  Initial Mass of the system. */
+
 		std::function<bool()> m_solveFunc;
 		bool m_solveWCompNewtonNoT();
 		bool m_solveBoussinesqWC();

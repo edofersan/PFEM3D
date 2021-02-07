@@ -28,6 +28,8 @@ class SIMULATION_API SolverIncompNewton: public Solver
 
 		bool m_solveHeatFirst;
 
+        double m_MassIni;                  /**<  Initial Mass of the system. */
+
 		std::function<bool()> m_solveFunc;
 		bool m_solveIncompNewtonNoT();
 		bool m_solveBoussinesq();
