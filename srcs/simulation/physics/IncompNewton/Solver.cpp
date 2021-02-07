@@ -157,6 +157,9 @@ Solver(pProblem, pMesh, problemParams)
             break;
         }
     }
+
+    // Initial mass of the system :
+    m_MassIni = m_pProblem->getGlobalWrittableData("mass");
 }
 
 SolverIncompNewton::~SolverIncompNewton()
@@ -203,7 +206,59 @@ bool SolverIncompNewton::m_solveIncompNewtonNoT()
     if(m_solveSucceed)
     {
         m_pProblem->updateTime(m_timeStep);
+        
+        // first remesh 
         m_pMesh->remesh(m_pProblem->isOutputVerbose());
+
+        // adapt alpha if parameters allow it -------------------------------------------
+        if(m_pMesh->m_adaptAlpha)
+        {
+            double Mass      = m_pProblem->getGlobalWrittableData("mass");  // current mass
+            double dMass     = (Mass - m_MassIni)/m_MassIni;                // current relative variation of mass
+            
+            // adapt alpha if the variation of mass is bigger than the imposed tolerance
+            if(abs(dMass) > m_pMesh->m_MassTol)
+            {
+                double alpha_user    = m_pMesh->m_alpha;    // the Alpha imposed by the user
+                double delta_alpha   = m_pMesh->m_Dalpha;   // the variation of alpha
+                double DeltaMass_ref = dMass;               // the reference value (lowest variation)
+                double alpha_ref = m_pMesh->m_alpha;        // the best alpha to be found
+                double alpha_min = m_pMesh->m_alphaMin;     // lower bound of Alpha
+                double alpha_max = m_pMesh->m_alphaMax;     // upper bound of Alpha
+
+                // if there is an excess of mass, alpha is reduced
+                if (dMass>m_pMesh->m_MassTol) 
+                    delta_alpha = -1.0*delta_alpha;
+
+                // adapt alpha until tolerance is met or bounds are reached
+                while( abs(dMass) > m_pMesh->m_MassTol && (m_pMesh->m_alpha + delta_alpha)>alpha_min && (m_pMesh->m_alpha + delta_alpha)<alpha_max)
+                {
+                    m_pMesh->m_alpha = m_pMesh->m_alpha + delta_alpha;      // the updated alpha      
+                    m_pMesh->triangulateAlphaShape();                       // the new mesh
+                    Mass   = m_pProblem->getGlobalWrittableData("mass");    // the updated mass
+                    dMass  = (Mass - m_MassIni)/m_MassIni;                  // the variation of mass
+
+                    // if the new mass variation is smaller, we keep alpha value
+                    if( (abs(dMass) < abs(DeltaMass_ref)) )
+                    {
+                        DeltaMass_ref  = dMass             ;
+                        alpha_ref      = m_pMesh->m_alpha  ;
+                    }
+                    else
+                    {
+                        dMass = m_pMesh->m_MassTol*100.0;
+                    }
+                }
+
+                // the remeshing process is performed with alpha_ref
+                m_pMesh->m_alpha  = alpha_ref;
+                // the new mesh that minimizes the variation of Mass.
+                m_pMesh->remesh(m_pProblem->isOutputVerbose());
+                // the user defined alpha is retrieved
+                m_pMesh->m_alpha = alpha_user;
+            }
+        }
+        // End adapt alpha ------------------------------------------------------------
     }
 
     return m_solveSucceed;
