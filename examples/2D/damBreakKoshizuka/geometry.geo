@@ -42,4 +42,4 @@ Physical Curve("FreeSurface") = {2,3};
 //+
 Physical Surface("Fluid") = {1};
 //+
-//Transfinite Surface{1};
+Transfinite Surface{1};
