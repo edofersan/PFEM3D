@@ -1,7 +1,7 @@
 Problem = {
     id = "IncompNewtonNoT",
 	simulationTime = 10,
-	verboseOutput = true,
+	verboseOutput = false,
 	
 	Mesh = {
 		hchar = 0.0146,

@@ -14,6 +14,7 @@ m_MassTol(meshInfos.MassTol),
 m_Dalpha(meshInfos.Dalpha),
 m_alphaMax(meshInfos.alphaMax),
 m_alphaMin(meshInfos.alphaMin),
+m_adaptAlpha(meshInfos.adaptAlpha),
 m_hchar(meshInfos.hchar),
 m_omega(meshInfos.omega),
 m_gamma(meshInfos.gamma),
@@ -21,15 +22,16 @@ m_boundingBox(meshInfos.boundingBox),
 m_computeNormalCurvature(true)
 {
     // Check if alpha can be modified, if not, alpha is considered fixed --------------
-    if(m_alpha < m_alphaMax && m_alpha > m_alphaMin)
+    if(m_adaptAlpha)
     {
-        if (m_Dalpha<m_alphaMax-m_alpha && m_Dalpha<m_alpha-m_alphaMin && m_Dalpha>0.0)
-            m_adaptAlpha = true; 
+        if(m_alpha < m_alphaMax && m_alpha > m_alphaMin)
+        {
+            if (m_Dalpha>m_alphaMax-m_alpha || m_Dalpha>m_alpha-m_alphaMin || m_Dalpha<0.0)
+                m_adaptAlpha = false; 
+        }
         else
-            m_adaptAlpha = false;
+            m_adaptAlpha = false; 
     }
-    else
-        m_adaptAlpha = false; 
     // end check -----------------------------------------------------------------------
 
     loadFromFile(meshInfos.mshFile);

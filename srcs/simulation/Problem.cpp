@@ -51,6 +51,7 @@ m_step(0)
     MeshCreateInfo createInfo = {
         mesh.checkAndGet<double>("hchar"),
         mesh.checkAndGet<double>("alpha"),
+        mesh.checkAndGet<bool>("adaptAlpha"),
         mesh.checkAndGet<double>("alphaMax"),
         mesh.checkAndGet<double>("alphaMin"),
         mesh.checkAndGet<double>("Dalpha"),

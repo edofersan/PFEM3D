@@ -19,6 +19,7 @@ struct MeshCreateInfo
 {
     double hchar = 0; /**< The characteristic element size of the mesh*/
     double alpha = 1; /**< The required \f$ \alpha \f$ value for the \f$ \alpha \f$-shape algorithm*/
+    bool adaptAlpha = false; /**< Can \f$ \alpha \f$ be modified*/
     double alphaMax = 1; /**< The maximum value of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
     double alphaMin = 1; /**< The minimum value of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
     double Dalpha   = 1; /**< The imposed variation of \f$ \alpha \f$ for the \f$ \alpha \f$-shape algorithm*/
