@@ -10,6 +10,7 @@
 
 Mesh::Mesh(const MeshCreateInfo& meshInfos) :
 m_alpha(meshInfos.alpha),
+m_alphaBest(meshInfos.alpha),
 m_MassTol(meshInfos.MassTol),
 m_Dalpha(meshInfos.Dalpha),
 m_alphaMax(meshInfos.alphaMax),

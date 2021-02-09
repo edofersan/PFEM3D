@@ -217,6 +217,9 @@ bool SolverWCompNewton::m_solveWCompNewtonNoT()
         m_pMesh->remesh(m_pProblem->isOutputVerbose());
         m_nextTimeToRemesh += m_maxDT;
 
+        // this is the best alpha up to now
+        m_pMesh->m_alphaBest = m_pMesh->m_alpha;
+
         // adapt alpha if parameters allow it -------------------------------------------
         if(m_pMesh->m_adaptAlpha)
         {
@@ -229,7 +232,7 @@ bool SolverWCompNewton::m_solveWCompNewtonNoT()
                 double alpha_user    = m_pMesh->m_alpha;    // the Alpha imposed by the user
                 double delta_alpha   = m_pMesh->m_Dalpha;   // the variation of alpha
                 double DeltaMass_ref = dMass;               // the reference value (lowest variation)
-                double alpha_ref = m_pMesh->m_alpha;        // the best alpha to be found
+                m_pMesh->m_alphaBest = m_pMesh->m_alpha;        // the best alpha to be found
                 double alpha_min = m_pMesh->m_alphaMin;     // lower bound of Alpha
                 double alpha_max = m_pMesh->m_alphaMax;     // upper bound of Alpha
 
@@ -248,8 +251,8 @@ bool SolverWCompNewton::m_solveWCompNewtonNoT()
                     // if the new mass variation is smaller, we keep alpha value
                     if( (abs(dMass) < abs(DeltaMass_ref)) )
                     {
-                        DeltaMass_ref  = dMass             ;
-                        alpha_ref      = m_pMesh->m_alpha  ;
+                        DeltaMass_ref        = dMass             ;
+                        m_pMesh->m_alphaBest = m_pMesh->m_alpha  ;
                     }
                     else
                     {
@@ -257,8 +260,8 @@ bool SolverWCompNewton::m_solveWCompNewtonNoT()
                     }
                 }
 
-                // the remeshing process is performed with alpha_ref
-                m_pMesh->m_alpha  = alpha_ref;
+                // the remeshing process is performed with the best alpha
+                m_pMesh->m_alpha  = m_pMesh->m_alphaBest;
                 // the new mesh that minimizes the variation of Mass.
                 m_pMesh->remesh(m_pProblem->isOutputVerbose());
                 // the user defined alpha is retrieved

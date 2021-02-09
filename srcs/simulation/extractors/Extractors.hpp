@@ -6,5 +6,6 @@
 #include "MinMaxExtractor.hpp"
 #include "GMSHExtractor.hpp"
 #include "MassExtractor.hpp"
+#include "AlphaExtractor.hpp"
 
 #endif // EXTRACTORS_HPP_INCLUDED

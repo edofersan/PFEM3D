@@ -209,6 +209,12 @@ void Problem::addExtractors()
                                                                       coordinate,
                                                                       minMax));
         }
+        else if(kind == "Alpha")
+        {
+            m_pExtractors.push_back(std::make_unique<AlphaExtractor>(this,
+                                                                    outFileName,
+                                                                    timeBetweenWriting));
+        }
         else
             throw std::runtime_error("Unknown extractor kind " + kind + "!");
     });

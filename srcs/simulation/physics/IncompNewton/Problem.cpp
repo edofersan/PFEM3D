@@ -167,7 +167,7 @@ std::vector<double> ProbIncompNewton::getWrittableData(const std::string& name, 
 
 std::vector<std::string> ProbIncompNewton::getGlobalWrittableDataName() const
 {
-    return {"mass"};
+    return {"mass","alpha"};
 }
 
 double ProbIncompNewton::getGlobalWrittableData(const std::string& name) const
@@ -183,6 +183,12 @@ double ProbIncompNewton::getGlobalWrittableData(const std::string& name) const
         }
 
         return mass;
+    }
+    else if(name == "alpha")
+    {
+        double alpha = m_pMesh->m_alphaBest;
+        
+        return alpha;
     }
     else
         throw std::runtime_error("The global data " + name + " cannot be extract from problem " + getID());

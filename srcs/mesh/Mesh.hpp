@@ -202,6 +202,7 @@ class MESH_API Mesh
         void triangulateAlphaShape();
 
         double m_alpha; /**< Alpha parameter of the alpha-shape algorithm (triangles are discared if  r_circumcircle > alpha*hchar). */
+        double m_alphaBest;/**< The best Alpha parameter of the alpha-shape algorithm. */
         double m_MassTol;  /**< Maximum variation of mass (% of Initial Mass) to start Alpha variation. */
         double m_Dalpha;   /**< Imposed Variation of Alpha value of the alpha-shape algorithm. */
         double m_alphaMax; /**< Maximum Alpha value of the alpha-shape algorithm. */
