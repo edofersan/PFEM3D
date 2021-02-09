@@ -8,8 +8,12 @@ export OMP_NUM_THREADS=2
 
 export PATH=${GMSHSDK}/bin:${GMSHSDK}/lib:"${PATH}"
 
-  ./pfem ../../examples/2D/damBreakWithObstacle/testComp.lua ../../examples/2D/damBreakWithObstacle/geometry.msh
-# ./pfem ../../examples/2D/damBreakWithObstacle/testIncomp.lua ../../examples/2D/damBreakWithObstacle/geometry.msh
+# ./pfem ../../examples/2D/damBreakWithObstacle/testComp.lua ../../examples/2D/damBreakWithObstacle/geometry.msh
+  ./pfem ../../examples/2D/damBreakWithObstacle/testIncomp.lua ../../examples/2D/damBreakWithObstacle/geometry.msh
 
 # ./pfem ../../examples/2D/damBreakKoshizuka/testComp.lua ../../examples/2D/damBreakKoshizuka/geometry.msh
 # ./pfem ../../examples/2D/damBreakKoshizuka/testIncomp.lua ../../examples/2D/damBreakKoshizuka/geometry.msh
+
+tar -czvf gmsh_Results.tar.gz ./*.msh 
+tar -czvf txt_Results.tar.gz ./*.msh 
+rm {*.msh,*.txt}
