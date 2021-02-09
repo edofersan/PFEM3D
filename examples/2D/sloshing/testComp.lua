@@ -31,6 +31,16 @@ Problem = {
 			timeBetweenWriting = 0.05,
 			whatToWrite = {"p", "ke"},
 			writeAs = "NodesElements" 
+		},
+		{
+			kind = "Alpha",
+			outputFile = "alpha.txt",
+			timeBetweenWriting = 0.01,
+		},
+		{
+			kind = "Mass",
+			outputFile = "mass.txt",
+			timeBetweenWriting = 0.01,
 		}
 	},
 	

@@ -28,13 +28,18 @@ Problem = {
 		{
 			kind = "GMSH",
 			outputFile = "results.msh",
-			timeBetweenWriting = 0.025,
+			timeBetweenWriting = 0.05,
 			whatToWrite = {"p", "ke"},
 			writeAs = "NodesElements" 
 		},
 		{
 			kind = "Mass",
 			outputFile = "mass.txt",
+			timeBetweenWriting = 0.01,
+		},
+		{
+			kind = "Alpha",
+			outputFile = "alpha.txt",
 			timeBetweenWriting = 0.01,
 		}
 	},
