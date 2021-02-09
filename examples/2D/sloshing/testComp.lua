@@ -1,11 +1,16 @@
 Problem = {
     id = "WCompNewtonNoT",
-	simulationTime = 4,
+	simulationTime = 10,
 	verboseOutput = false,
 	
 	Mesh = {
 		hchar = 0.02,
 		alpha = 1.2,
+		adaptAlpha = true,
+		alphaMax   = 1.3,
+		alphaMin   = 1.1,
+		Dalpha     = 0.025,
+		MassTol    = 0.1,
 		omega = 0.7,
 		gamma = 0.7,
 		boundingBox = {-2, -1, 12, 100},
