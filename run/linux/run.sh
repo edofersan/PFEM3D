@@ -16,4 +16,5 @@ export PATH=${GMSHSDK}/bin:${GMSHSDK}/lib:"${PATH}"
 
 tar -czvf gmsh_Results.tar.gz ./*.msh 
 tar -czvf txt_Results.tar.gz ./*.msh 
-rm {*.msh,*.txt}
+rm *.msh
+rm *.txt
