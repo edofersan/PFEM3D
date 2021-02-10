@@ -47,4 +47,12 @@ cmake ../ -DCMAKE_BUILD_TYPE=Debug  -G "CodeBlocks - Unix Makefiles"
 
 cp ../run/linux/run.sh bin/
 
+cd bin
+mkdir examples
 cd ../
+
+cd ../
+
+cd examples
+
+find . -name "*.msh" | cpio -pdm ../build/bin/examples 
