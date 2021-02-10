@@ -1,24 +1,30 @@
-function [] = Third_gif_Creator()
-clear all; close all;
+function [] = gif_Creator(Set_of_Results)
 
 %% RESULTS TO BE PROCESSED
-Set_of_Results = 'damBreakKoshizuka/Incomp';
 cd ../../results/
 cd (Set_of_Results)
 
-%% 
+%% retrieving the test_case for positioning the screeshot 
+j = strfind(Set_of_Results,'/');
+Test_case = Set_of_Results(j(1)+1:j(2)-1);
+
+%% load the DATA 
+cd txt_files
 load('DATA.mat');
 tMass    = DATA{1};
 Mass     = DATA{2};
-dTData   = 0.01;
+tAlpha   = DATA{3};
+Alpha    = DATA{4};
+cd ..
 
 %% The gif ====================================================
+cd gmsh_files
 ResultsPictures = dir('*.png');
 GifName         = 'GIF_results.gif';
-delay           = 0.01;             % Delay between frames (s)
+delay           = 0.2;             % Delay between frames (s)
 FilesNames      = cell(size(ResultsPictures,1),1);
 
-% sorting the time steps: --------------------
+%% sorting the time steps: (because of 1.9, 10, 2.1) -------------
 time_sort = zeros(size(ResultsPictures,1),1);
 k = 0;
 for i = 1:size(ResultsPictures,1)
@@ -34,7 +40,8 @@ FilesNames = FilesNames(1:k);
 [~,ind] = sort(time_sort);
 FilesNames = FilesNames(ind);
 time_sort  = time_sort(ind);
-% --------------------------------------------
+
+%% loop over the pictures and add text on them --------------------
 for i = 1:size(FilesNames,1)
     NAME = FilesNames{i};
     [A, ~]   = imread(NAME);
@@ -42,12 +49,33 @@ for i = 1:size(FilesNames,1)
 
     % additional information on the figure ----------------------------
     time   = time_sort(i);
+    % the mass of the time step
     [~,j]  = min(abs(time - tMass));
     M      = round(Mass(j)./Mass(1,1)*100);
-    X = AddTextToImage(X,strcat([' t  :   ',num2str(time,'%1.4f')]),[100 200],[0 0 0],'Arial',15);
-    X = AddTextToImage(X,strcat(['M :   ',num2str(M),' %']),[50 200],[0 0 0],'Arial',15);
-    %------------------------------------------------------------------
+    
+    switch Test_case
+        case 'damBreakKoshizuka'
+            % placing the time
+            X = AddTextToImage(X,strcat(['t : ',num2str(time,'%1.4f')]),[470 60],[0 0 0],'Arial',22);
+            % placing the mass
+            X = AddTextToImage(X,strcat([' M : ',num2str(M),' %']),[470 230],[0 0 0],'Arial',22);
+            % the alpha
+            [~,j]  = min(abs(time - tAlpha));
+            X = AddTextToImage(X,strcat(['alpha: ',num2str(Alpha(j),'%1.3f')]),[470 400],[0 0 0],'Arial',22);
+        case 'damBreakWithObstacle'
+            % placing the time
+            X = AddTextToImage(X,strcat(['t : ',num2str(time,'%1.4f')]),[495 70],[0 0 0],'Arial',20);
+            % placing the mass
+            X = AddTextToImage(X,strcat([' M : ',num2str(M),' %']),[495 240],[0 0 0],'Arial',20);
+            % the alpha
+            [~,j]  = min(abs(time - tAlpha));
+            X = AddTextToImage(X,strcat(['alpha: ',num2str(Alpha(j),'%1.3f')]),[495 400],[0 0 0],'Arial',20);
+        otherwise
+            error('no Test_case known');
+    end
+    
 
+    %------------------------------------------------------------------
     if i == 1
         imwrite(X, map, GifName, 'gif', 'LoopCount', inf, 'DelayTime', delay)
     else
@@ -60,7 +88,7 @@ end
 
 fprintf(1,'\n');
 
-cd ../../../PostProc/Matlab_Scripts
+cd ../../../../../PostProc/Matlab_Scripts
 
 %% =======================================================================
 % ========================================================================
