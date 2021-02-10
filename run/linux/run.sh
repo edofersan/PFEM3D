@@ -40,8 +40,8 @@ fi
 
 cd ../../../build/bin
 
-cp -avr gmsh_Results.tar.gz ../../results/"$dim"/"$Test_Case"/"$Problem_$Info"
-cp -avr txt_Results.tar.gz ../../results/"$dim"/"$Test_Case"/"$Problem_$Info"
+cp -avr gmsh_Results.tar.gz ../../results/"$dim"/"$Test_Case"/"$Problem""_""$Info"
+cp -avr txt_Results.tar.gz ../../results/"$dim"/"$Test_Case"/"$Problem""_""$Info"
 
 rm gmsh_Results.tar.gz
 rm txt_Results.tar.gz
