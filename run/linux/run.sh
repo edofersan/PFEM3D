@@ -14,7 +14,7 @@ export PATH=${GMSHSDK}/bin:${GMSHSDK}/lib:"${PATH}"
 ./pfem ../../examples/"$dim"/"$Test_Case"/"$Problem".lua ../../examples/"$dim"/"$Test_Case"/geometry.msh
 
 tar -czvf gmsh_Results.tar.gz ./*.msh 
-tar -czvf txt_Results.tar.gz ./*.msh 
+tar -czvf txt_Results.tar.gz ./*.txt 
 rm *.msh
 rm *.txt
 
