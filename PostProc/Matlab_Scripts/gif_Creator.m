@@ -1,4 +1,4 @@
-function [] = gif_Creator(Set_of_Results)
+function [] = gif_Creator(Set_of_Results,GifName,timeMax,delay)
 
 %% RESULTS TO BE PROCESSED
 cd ../../results/
@@ -20,8 +20,6 @@ cd ..
 %% The gif ====================================================
 cd gmsh_files
 ResultsPictures = dir('*.png');
-GifName         = 'GIF_results.gif';
-delay           = 0.2;             % Delay between frames (s)
 FilesNames      = cell(size(ResultsPictures,1),1);
 
 %% sorting the time steps: (because of 1.9, 10, 2.1) -------------
@@ -40,11 +38,12 @@ FilesNames = FilesNames(1:k);
 [~,ind] = sort(time_sort);
 FilesNames = FilesNames(ind);
 time_sort  = time_sort(ind);
+[~,id_TimeMax]  = min(abs(time_sort-timeMax));
 
 %% loop over the pictures and add text on them --------------------
-for i = 1:size(FilesNames,1)
+for i = 1:id_TimeMax
     NAME = FilesNames{i};
-    [A, ~]   = imread(NAME);
+    [A, ~]   = imread(NAME(1:end-4),'png');
     [X, map] = rgb2ind(A, 256);
 
     % additional information on the figure ----------------------------
@@ -70,6 +69,14 @@ for i = 1:size(FilesNames,1)
             % the alpha
             [~,j]  = min(abs(time - tAlpha));
             X = AddTextToImage(X,strcat(['alpha: ',num2str(Alpha(j),'%1.3f')]),[495 400],[0 0 0],'Arial',20);
+        case 'dropFallInFluid'
+            % placing the time
+            X = AddTextToImage(X,strcat(['t : ',num2str(time,'%1.4f')]),[495 70],[0 0 0],'Arial',20);
+            % placing the mass
+            X = AddTextToImage(X,strcat([' M : ',num2str(M),' %']),[495 240],[0 0 0],'Arial',20);
+            % the alpha
+            [~,j]  = min(abs(time - tAlpha));
+            X = AddTextToImage(X,strcat(['alpha: ',num2str(Alpha(j),'%1.3f')]),[495 400],[0 0 0],'Arial',20);      
         otherwise
             error('no Test_case known');
     end
@@ -190,7 +197,7 @@ function Font = BitmapFont(Name,Size,Characters,Padding)
 %
 %   All arguments optional. Default is Courier New at 32 px with 2% kerning
 %   with the characters abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
-%   Z1234567890''м!"Ј$%&/()=?^и+тащ,.-<\|;:_>*@#[]{}
+%   Z1234567890''пїЅ!"пїЅ$%&/()=?^пїЅ+пїЅпїЅпїЅ,.-<\|;:_>*@#[]{}
 %
 %   Variable width fonts will work, but fixed width fonts are likely to
 %   have fewer kerning issues. Works via screenshots and pops up a figure
@@ -210,7 +217,7 @@ if ~exist('Size','var')
     Size = 32;
 end
 if ~exist('Characters','var')
-    Characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890''м!"Ј$%&/()=?^и+тащ,.-<\|;:_>*@#[]{}';
+    Characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890''пїЅ!"пїЅ$%&/()=?^пїЅ+пїЅпїЅпїЅ,.-<\|;:_>*@#[]{}';
 end
 if ~exist('Padding','var')
     Padding = 0.02*Size;

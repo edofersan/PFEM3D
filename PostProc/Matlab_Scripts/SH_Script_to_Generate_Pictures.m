@@ -1,12 +1,8 @@
-function [] = SH_Script_to_Generate_Pictures(Set_of_Results)
+function [] = SH_Script_to_Generate_Pictures(Set_of_Results,ELines,... 
+                        spheres,spheres_Size,MaxValuePlot,MinValuePlot)
 cd ../../results/
 cd (Set_of_Results)
 cd gmsh_files
-
-%% draw element lines?
-ELines = 'no';
-MaxValuePlot = 7;
-MinValuePlot = 0;
 
 %% retrieving the test_case for positioning the screeshot 
 j = strfind(Set_of_Results,'/');
@@ -41,8 +37,14 @@ for i=1:Nfiles
     fprintf(fileID,'\n View[1].CustomMax = %1.2f;',MaxValuePlot);
     fprintf(fileID,'\n View[1].CustomMin = %1.2f;',MinValuePlot');
     
+    if strcmp(spheres,'yes')
+        fprintf(fileID,'\n View[1].Explode = 0;');
+        fprintf(fileID,'\n View[1].PointType = 1;');
+        fprintf(fileID,'\n View[1].PointSize = %1.0f;',spheres_Size);
+    end
+    
     if strcmp(ELines,'no')
-        fprintf(fileID,'\n Mesh.SurfaceEdges = 0;');   % comment to plot element lines
+        fprintf(fileID,'\n Mesh.SurfaceEdges = 0;'); 
     end
     
     switch Test_case
@@ -58,6 +60,18 @@ for i=1:Nfiles
             fprintf(fileID,'\n General.ManipulatorPositionY = 0;');
             fprintf(fileID,'\n General.ScaleX = 3.5;');
             fprintf(fileID,'\n General.ScaleY = 3.5;');
+        case 'dropFallInFluid'
+            fprintf(fileID,'\n General.TranslationX = 0.3;');
+            fprintf(fileID,'\n General.TranslationY = -0.22;');
+            fprintf(fileID,'\n General.ManipulatorPositionY = 0;');
+            fprintf(fileID,'\n General.ScaleX = 3.5;');
+            fprintf(fileID,'\n General.ScaleY = 3.5;');    
+        case 'sloshing'
+            fprintf(fileID,'\n General.TranslationX = -0.5;');
+            fprintf(fileID,'\n General.TranslationY = -0.45;');
+            fprintf(fileID,'\n General.ManipulatorPositionY = 0;');
+            fprintf(fileID,'\n General.ScaleX = 1.7;');
+            fprintf(fileID,'\n General.ScaleY = 1.7;');       
         otherwise
             error('no Test_case known');
     end
@@ -86,13 +100,3 @@ fclose all;
 cd ../../../../../PostProc/Matlab_Scripts
 
 end
-
-%% if you use WSL, remember to:
-%{ 
-export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
-echo $DISPLAY
-export DISPLAY=$(ip route get 0.0.0.0 | awk '{print $NF}'):0
-export LIBGL_ALWAYS_INDIRECT=1
-export LIBGL_ALWAYS_INDIRECT
-%}
-
